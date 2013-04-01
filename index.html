@@ -123,6 +123,10 @@
 
 	<body>
 
+        <a target="_blank" href="https://github.com/timglabisch" style="z-index:9; position: absolute; top: 0; right: 0;">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub">
+        </a>
+
         <div id="ajaxresultLayer" style="display:none; position:absolute; background-color:rgb(116, 183, 63); margin-left:10%; margin-top:10%; width:80%; height:80%; z-index:2">
 
         </div>
@@ -300,6 +304,321 @@
                     </pre>
 
                 </section>
+
+
+                <section>
+
+                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "query" : {
+        "term": {
+            "message" : "timglabisch"
+        }
+    }
+}
+                    </pre>
+
+                </section>
+
+
+                <section>
+
+                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "query" : {
+        "term": {
+            "user" : "timglabisch",
+            "message" : "#elasticsearch"
+        }
+    }
+}
+                    </pre>
+
+                </section>
+
+                <section>
+
+                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "query" : {
+        "term": {
+            "message" : "#elasticsearch"
+        }
+    }
+}
+                    </pre>
+
+                </section>
+
+
+                <section>
+
+                    <h2>be aware</h2>
+                    <p>
+                        - term queries use OR by default!
+                    </p>
+                    <p>
+                        - know the tokenizer, there is no <strong>#</strong>elasticsearch token!
+                    </p>
+
+                </section>
+
+                <section>
+
+                    <pre class="longtxt elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "query" : {
+        "bool": {
+            "must": [
+                {
+                    term: {"message" : "elasticsearch" }
+                },
+                {
+                    term: {"user" : "timglabisch" }
+                }
+            ]
+        }
+    }
+}
+                    </pre>
+
+                </section>
+
+
+                <section>
+
+                    <pre class="longtxt elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "query" : {
+        "bool": {
+            "must": [
+                {
+                    term: {"message" : "elasticsearch" }
+                },
+                {
+                    bool: {
+                        "must" : {
+                            term: {"user" : "timglabisch" }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
+                    </pre>
+
+                </section>
+
+
+                <section>
+
+                    <p>- <strong>json</strong> is awesome to <strong>build queries</strong>.</p>
+                    <p>- <strong>easy</strong> to write <strong>complex queries</strong></p>
+                    <p>
+                        - <strong>mix</strong> different query types
+                        <small>
+                        match, multi_match, <strong>bool</strong>, boosting, ids, custom_score,
+                        custom_boost_factor, constant_score, dis_max, field, filtered, flt,flt_field,
+                        fuzzy, has_child, has_parent, match_all, mlt, mlt_field, prefix, query_string,
+                        range, span_first, span_near, span_not, span_or, span_term, <strong>term</strong>, terms, top_children
+                        wildcard, nested, custom_filters_score, indices, text, geo_shape
+                        <br/>
+                        <a href="http://www.elasticsearch.org/guide/reference/query-dsl/" target="_blank">look at the manual</a>
+                        </small>
+                    </p>
+
+                </section>
+
+
+                <section>
+
+                    <h2>
+                        <a href="http://www.elasticsearch.org/guide/reference/api/search/facets/" target="_blank">
+                            facets
+                        </a>
+                    </h2>
+                    <a href="https://github.com/search?q=zend_&ref=simplesearch&type=Code" target="_blank">
+                        <img src="images/github_facets.png" style="width:100%"/>
+                    </a>
+
+
+                </section>
+
+                <section>
+                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "facets" : {
+        "i_am_just_an_identifier": {
+            "terms": { "field": "message" }
+        }
+    }
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <h4>multiple facets</h4>
+                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "facets" : {
+        "i_am_just_an_identifier": {
+            "terms": { "field": "message" }
+        },
+        "i_am_just_another_identifier": {
+            "terms": { "field": "user" }
+        }
+    }
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <h3>different search phases.</h3>
+                    <a target="_blank" href="https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/search/query/QueryPhase.java#L128">
+                        <img src="images/source_different_search_types.png" style="width:100%"/>
+                    </a>
+
+                    <small>
+                        <a target="_blank" href="https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/search/query/QueryPhase.java#L128">
+                            src/main/java/org/elasticsearch/search/query/QueryPhase.java#L128
+                        </a>
+                        <br/>
+                        <br/>
+                        the breakpoint is awesome to debug the generated lucene query.
+                    </small>
+
+                </section>
+
+                <section>
+                    <h3>combine query and facets.</h3>
+                    <pre class="elasticsearch demo longtxt" data-method="post" data-url="twitter/timglabisch/_search">
+{
+    "query" : {
+        "bool": {
+            "must": [
+                {
+                    term: {"message" : "elasticsearch" }
+                },
+                {
+                    term: {"user" : "timglabisch" }
+                }
+            ]
+        }
+    },
+    "facets" : {
+        "i_am_just_an_identifier": {
+            "terms": { "field": "message" }
+        },
+        "i_am_just_another_identifier": {
+            "terms": { "field": "user" }
+        }
+    }
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <img src="images/facets_overview_hauptruppe.png" style="width:100%"/>
+                </section>
+
+
+                <section>
+                    <img src="images/facets_overview_filterspng.png" style="width:100%"/>
+                </section>
+
+                <section>
+                    <h2>Filters</h2>
+                    <p>
+                        Teilabfragen können unabhängig <a target="_blank" href="http://www.elasticsearch.org/guide/reference/query-dsl/">gefiltert</a> werden.
+                    </p>
+                </section>
+
+                <section>
+                    <pre class="elasticsearch demo longtxt" data-method="post" data-url="twitter/timglabisch/_search">
+{
+   "size":16,
+   "facets":{
+      "provider":{
+         "terms":{
+            "field":"provider",
+            "size":35
+         },
+         "facet_filter":{
+            "bool":{
+               "must":[
+                  {
+                     "term":{
+                        "level1":"Motor"
+                     }
+                  },
+                  {
+                     "term":{
+                        "cars":"vw"
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      "cars":{
+         "terms":{
+            "field":"cars",
+            "size":35
+         },
+         "facet_filter":{
+            "bool":{
+               "must":[
+                  {
+                     "term":{
+                        "level1":"Motor"
+                     }
+                  },
+                  {
+                     "term":{
+                        "provider":"Top-Angebot"
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      // ....
+   },
+   "query":{
+      // jep we have a empty query ...
+   },
+   "filter":{
+      "bool":{
+         "must":[
+            {
+               "term":{
+                  "level1":"Motor"
+               }
+            },
+            {
+               "term":{
+                  "provider":"Top-Angebot"
+               }
+            },
+            {
+               "term":{
+                  "cars":"vw"
+               }
+            }
+         ]
+      }
+   }
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <p>
+                        filters are awesome flexible, cacheable and reduce the number of requests.
+                    </p>
+                </section>
+
 
 			</div>
 
