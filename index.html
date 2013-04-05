@@ -79,8 +79,10 @@
                     var btn = $('<button>!%$" it</button>');
                     btn.on('click', function() {
 
+                        var url = $(this.pre).parent().find('.url').val();
+
                         $.ajax({
-                            url: 'http://127.0.0.1:9200/'+ $(this.pre).parent().find('.url').val() +'?pretty=true',
+                            url: 'http://127.0.0.1:9200/'+ url +  ( url.indexOf('?') ? '&' : '?' ) + 'pretty=true',
                             type: $(this.pre).parent().find('.method').val().toUpperCase(),
                             dataType: 'json',
                             success: function(data) {
@@ -695,8 +697,110 @@
 
                 <section>
                     <h1><a href="http://www.elasticsearch.org/guide/reference/mapping/">Mappings</a></h1>
+                    <p>
+                        Elasticseatch isn't schemaless.
+                    </p>
                 </section>
 
+                <section>
+                    <h4>Index an int</h4>
+                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/schemaless_proof">
+{
+    "some_value": 1
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <h4>try to index a string to the same field ...</h4>
+                    <pre class="elasticsearch demo" data-method="post" data-url="wayne/schemaless_proof">
+{
+    "some_value": "i am just a string"
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <h2>
+                        the first value for a key maps your types.
+                    </h2>
+                    <p>
+                        sounds ugly but allows to start easy.
+                    </p>
+                </section>
+
+                <section>
+                    <h4>add the mapping</h4>
+                    <pre class="elasticsearch demo" data-method="put" data-url="wayne/schemaless_proof_2/_mapping">
+{
+    "schemaless_proof_2" : {
+        "properties" : {
+            "age" : {
+                "type" : "integer"
+            },
+            "name" : {
+                "type" : "string",
+                "search_analyzer": "keyword",
+                "index_analyzer" : "keyword"
+            }
+        }
+    }
+}
+                    </pre>
+                </section>
+
+
+                <section>
+                    <h4>get the mapping</h4>
+                    <pre class="elasticsearch demo" data-method="get" data-url="wayne/schemaless_proof_2/_mapping">
+
+                    </pre>
+                </section>
+
+                <section>
+                    <h3>Proof</h3>
+                    <pre class="elasticsearch demo" data-method="post" data-url="wayne/schemaless_proof_2">
+{
+    "age": 4, "name" : 10
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <pre class="elasticsearch demo" data-method="post" data-url="wayne/schemaless_proof_2">
+{
+    "age": 22, "name" : "Tim Glabisch"
+}
+                    </pre>
+                </section>
+
+                <section>
+                    <h1>remapping sucks</h1>
+                </section>
+
+
+                <section>
+                    <h1>tokenizer</h1>
+                </section>
+
+                <section>
+                    <img src="images/tokenizer.gif" style="width:100%"/>
+                    <small>
+                        by <a href="http://mata.gia.rwth-aachen.de/Docs/JavaInsel/bilderklein/kleinStringTokenizer.gif">mata.gia.rwth-aachen.de</a>
+                    </small>
+                </section>
+
+                <section>
+                    <p><small>there are a bunch of <a href="http://www.elasticsearch.org/guide/reference/index-modules/analysis/keyword-tokenizer/" target="_blank">tokenizers</a>: Edge NGram, Keyword, Letter, Lowercase, NGram, Standard, Whitespace, Pattern, UAX URL Email, Path Hierarchy</small></p>
+                    <pre class="elasticsearch demo" data-method="post" data-url="_analyze?tokenizer=keyword">
+this is a text
+                    </pre>
+                </section>
+
+
+                <section>
+                    <h1>token filter</h1>
+                </section>
 
 
 
