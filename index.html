@@ -82,7 +82,7 @@
                         var url = $(this.pre).parent().find('.url').val();
 
                         $.ajax({
-                            url: 'http://127.0.0.1:9200/'+ url +  ( url.indexOf('?') ? '&' : '?' ) + 'pretty=true',
+                            url: 'http://127.0.0.1:9200/'+ url +  ( url && url.indexOf('?') ? '&' : '?' ) + 'pretty=true',
                             type: $(this.pre).parent().find('.method').val().toUpperCase(),
                             dataType: 'json',
                             success: function(data) {
@@ -157,6 +157,28 @@
 					<small>
 						by <a href="mailto:phpug_elasticsearch@tim.ainfach.de">@timglabisch</a>
 					</small>
+
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Danke fürs kommen.</li>
+                            <li>Ich bin <strong>Tim Glabisch</strong>, arbeite für <strong>AnyMotion Graphics</strong>.</li>
+                            <li>
+                                Hab schon mehrfach festgestellt, dass <strong>Suchen</strong> mit einer <strong>Relationalen Datenbank keinen Spass</strong> machen.
+                                <ul>
+                                    <li>Performance</li>
+                                    <li>viel Aufwand</li>
+                                    <li>Features fehlen - Volltextsuchen, Facetten, u.s.w.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>fork</strong> me on github!
+                            </li>
+                            <li>
+                                fast alles <strong>paktische Beispiele</strong>!
+                            </li>
+                        </ul>
+                    </aside>
 				</section>
 
 				<section>
@@ -167,6 +189,17 @@
                             <a target="_blank" href="https://github.com/blog/1381-a-whole-new-code-search">github.com/blog/1381-a-whole-new-code-search</a><br/>
                             <a target="_blank" href="https://github.com/search">github.com/search</a>
                     </small>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>ich hasse dieses Bild :)</li>
+                            <li>diese Bilder entstehen bei <strong>neuen features</strong> bei Github.</li>
+                            <li><strong>Github</strong> nutzt seit neuem Elasticsearch für die <strong>Code Suche</strong> - auch Foursquare</li>
+                            <li>ich habe <strong>quasi alles verlinkt</strong>!</li>
+                        </ul>
+                    </aside>
+
+
 				</section>
 
                 <section>
@@ -175,19 +208,15 @@
                     </a>
 
                     <aside class="notes">
-                        Suchwort 42 - nicht nach der Antwort suchen :)<br/>
-                        <br/>
-
-                        Facetten - Aggregatoren<br/>
-                        Facetten - Relatione Datenbank!?<br/>
-                        Facetten brauchen RAM!<br/>
-                        <br/>
-
-                        Highlighting von Textstücken
-                        <br/>
-
-                        Advanced Search
-
+                        <ul>
+                            <li>Beispiel einer Suchmaske</li>
+                            <li>Suchwort 42 - nicht nach der Antwort suchen :)</li>
+                            <li>Facetten - Aggregatoren</li>
+                            <li>Facetten - Relatione Datenbank!?</li>
+                            <li>Facetten brauchen RAM!</li>
+                            <li>Highlighting von Textstücken</li>
+                            <li>Advanced Search</li>
+                        </ul>
                     </aside>
 
                 </section>
@@ -196,6 +225,17 @@
                     <strong>Real time data</strong>, Real time analytics, Distributed, High availability, Multi-tenancy, Full text search
                     Document oriented, Conflict management, <strike>Schema free</strike>, <strong>RESTful API</strong>, Per-operation persistence,
                     Apache 2 Open Source License, Build on top of <strong>Apache Lucene ™</strong>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>so beschreibt sich Elasticsearch</li>
+                            <li>fast alles für <strong>heute unwichtig!</strong></li>
+                            <li>Realtime kann nicht jeder Suchserver - Realtime bedeutet wenige Sekunden nach dem Indizieren </li>
+                            <li>Elasticsearch nutzt Rest</li>
+
+                        </ul>
+                    </aside>
+
                 </section>
 
                 <section>
@@ -238,12 +278,26 @@
                         <br/>
                         <br/>
                         ...
+
+                        <aside class="notes">
+                            <ul>
+                                <li>bitte <strong>nicht lesen</strong>!</li>
+                                <li>es kann viel. wirklich.</li>
+                            </ul>
+                        </aside>
                     </small>
                 </section>
 
                 <section>
                     <h1>elasticsearch</h1>
                     <h2>in Action...</h2>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>wir schauen uns das an, was für eure <strong>erste Suchanwendung wichtig</strong>.</li>
+                            <li>mein Ziel - <strong>ihr geht nach hause und könnt eine 0-8-15 Suchmaske bauen</strong>.</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -253,6 +307,14 @@
                         <br/>
                         <strong>2.</strong> Run bin/elasticsearch -f on Unix.
                     </p>
+                    <aside class="notes">
+                        <ul>
+                            <li>installation ist einfach</li>
+                            <li>runterlasen</li>
+                            <li>installer für init Skripte runderladen - ausführen</li>
+                            <li>defaults sind alle brauchbar!</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -260,6 +322,15 @@
                     <a target="_blank" href="https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/bootstrap/ElasticSearchF.java">
                         <img src="images/source_bootstrapF.png" style="width:100%"/>
                     </a>
+                    <aside class="notes">
+                        <ul>
+                            <li>front modus</li>
+                            <li>super zum debuggen</li>
+                            <li>strg + C zum beenden</li>
+                            <li>als Service einfach ohne -f</li>
+                            <li>ihr könnt auch mehrere Instanzen starten</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -273,6 +344,31 @@
                     <a target="_blank" href="https://github.com/elasticsearch/elasticsearch/blob/master/src/main/java/org/elasticsearch/node/internal/InternalNode.java#L136">
                         org/elasticsearch/node/internal/InternalNode.java#L136
                     </a>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>elasticsearch ist modular</li>
+                            <li>code sieht sehr sauber aus</li>
+                            <li>veschiedene module werden gestartet</li>
+                        </ul>
+                    </aside>
+
+                </section>
+
+                <section>
+                    <h2>say hello.</h2>
+                    <pre class="elasticsearch demo" data-method="get" data-url="">
+
+                    </pre>
+
+
+                    <aside class="notes">
+                        <ul>
+                            <li>elasticsearch ist modular</li>
+                            <li>code sieht sehr sauber aus</li>
+                            <li>veschiedene module werden gestartet</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -791,7 +887,8 @@
                 </section>
 
                 <section>
-                    <p><small>there are a bunch of <a href="http://www.elasticsearch.org/guide/reference/index-modules/analysis/keyword-tokenizer/" target="_blank">tokenizers</a>: Edge NGram, Keyword, Letter, Lowercase, NGram, Standard, Whitespace, Pattern, UAX URL Email, Path Hierarchy</small></p>
+                    <p><small>there are a bunch of <a href="http://www.elasticsearch.org/guide/reference/index-modules/analysis/keyword-tokenizer/" target="_blank">tokenizers</a>:
+                        Edge NGram, Keyword, Letter, Lowercase, NGram, Standard, Whitespace, Pattern, UAX URL Email, Path Hierarchy</small></p>
                     <pre class="elasticsearch demo" data-method="post" data-url="_analyze?tokenizer=keyword">
 this is a text
                     </pre>
@@ -799,7 +896,33 @@ this is a text
 
 
                 <section>
-                    <h1>token filter</h1>
+                    <p>
+                        <small>there are a bunch of <a href="http://www.elasticsearch.org/guide/reference/index-modules/analysis/stemmer-tokenfilter/" target="_blank">tokenfilters</a>:
+Standard, ASCII Folding, Length, Lowercase, NGram, Edge NGram, Porter Stem, Shingle, Stop, Word Delimiter, Stemmer, and 15 more...
+                        </small>
+                    </p>
+                    <pre class="elasticsearch demo" data-method="post" data-url="_analyze?filters=lower">
+Für die Zukunft sind
+Computer mit weniger
+als 1,5 Tonnen Gewicht vorstellbar.
+                    </pre>
+                    <small>
+                        Popular Mechanics, US-Technik-Magazin, 1949
+                    </small>
+                    <br/>
+                </section>
+
+                <section>
+                    <h1>there is so much more...</h1>
+                </section>
+
+
+                <section>
+                    <h1>querstions?</h1>
+                </section>
+
+                <section>
+                    <h1>thx.</h1>
                 </section>
 
 
