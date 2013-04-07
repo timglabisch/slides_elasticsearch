@@ -350,6 +350,11 @@
                             <li>elasticsearch ist modular</li>
                             <li>code sieht sehr sauber aus</li>
                             <li>veschiedene module werden gestartet</li>
+                            <li>nutzt netty und guice</li>
+                            <li>plugin api vorhanden</li>
+                            <li>discovery modul findet andere Instanzen - broadcast, ip liste, amazon, ...</li>
+                            <li>Rest modul für alle Rest anfragen</li>
+                            <li>Buld modul für größere Mengen von Daten, Udp auch möglich.</li>
                         </ul>
                     </aside>
 
@@ -364,9 +369,10 @@
 
                     <aside class="notes">
                         <ul>
-                            <li>elasticsearch ist modular</li>
-                            <li>code sieht sehr sauber aus</li>
-                            <li>veschiedene module werden gestartet</li>
+                            <li>editor habe ich gabaut</li>
+                            <li>oben die url und die http methode</li>
+                            <li>unten der senden button</li>
+                            <li>response öffnet sich asap</li>
                         </ul>
                     </aside>
 
@@ -381,6 +387,15 @@
 }
                     </pre>
 
+                    <aside class="notes">
+                        <ul>
+                            <li>einfaches hnzufügen von Daten</li>
+                            <li>nur Json</li>
+                            <li>daten werden als original gespeichert</li>
+                            <li>daten werden indiziert - inverted index</li>
+                        </ul>
+                    </aside>
+
                 </section>
 
                 <section>
@@ -393,6 +408,13 @@
                             src/main/java/org/elasticsearch/rest/action/search/RestSearchAction.java#L57
                         </a>
                     </small>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Module registrieren in netty Handler</li>
+                            <li>Diese können über die Url angesprochen werden</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -400,6 +422,14 @@
                     <pre class="elasticsearch demo" data-method="get" data-url="twitter/timglabisch/_search">
 
                     </pre>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>einfache Suchanfrage</li>
+                            <li>gibt alles zurück - size von 10</li>
+                            <li>keine Bedingungen</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -415,6 +445,14 @@
     }
 }
                     </pre>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Suche nach einem Term</li>
+                            <li>Term entspricht einem Token!</li>
+                            <li>Token muss nur in dem Text vorkommen, anders als bei MySql</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -432,6 +470,13 @@
 }
                     </pre>
 
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Suche nach mehreren Terms</li>
+                        </ul>
+                    </aside>
+
                 </section>
 
                 <section>
@@ -446,6 +491,16 @@
 }
                     </pre>
 
+                    <aside class="notes">
+                        <ul>
+                            <li>Was passiert nun?</li>
+                            <li>ausführen!!</li>
+                            <li>Warum gibt es kein Ergebnis?</li>
+                            <li>Tokenizer und #</li>
+                            <li>Warum gab es vorher ein Ergebnis? - nochmal zurück!!</li>
+                        </ul>
+                    </aside>
+
                 </section>
 
 
@@ -458,6 +513,14 @@
                     <p>
                         - know the tokenizer, there is no <strong>#</strong>elasticsearch token!
                     </p>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>merkt euch die Slide</li>
+                            <li>war mein erster "Fehler" mit elasticsearch</li>
+                            <li>wie aber setzen wir es dann um?</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -479,6 +542,15 @@
     }
 }
                     </pre>
+                    <aside class="notes">
+                        <ul>
+                            <li>bool query</li>
+                            <li>mehrere Subqueries</li>
+                            <li>must, must not, should</li>
+                            <li>bei should kann man bei mehreren unterabfragen definieren wieviele mind zutreffen müssen</li>
+                            <li>treffer bei should erhöhen das Ranking - boosting</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -506,6 +578,15 @@
 }
                     </pre>
 
+                    <aside class="notes">
+                        <ul>
+                            <li>queries lassen sich beliebig schachteln</li>
+                            <li>unterschiedliche query typen sind kombinierbar</li>
+                            <li>wir haben 2 term queries und 2 bool queries</li>
+                            <li>sehr komplexe Queries möglich</li>
+                        </ul>
+                    </aside>
+
                 </section>
 
 
@@ -526,6 +607,18 @@
                         </small>
                     </p>
 
+
+                    <aside class="notes">
+                        <ul>
+                            <li>sql strings bauen ist fehleranfällig</li>
+                            <li>ich habe schon kuriose möglichkeiten gesehen wie sql zusammengebaut wird</li>
+                            <li>ich habe schn projekte gesehen die daran gescheitert sind</li>
+                            <li>json zu modifizieren ist eine gute möglichkeit</li>
+                            <li>viele verschiedene Suchtypen</li>
+                            <li>beispielsweise kurioseste formen auf einer karte für geosuchen...</li>
+                            <li>alle lassen sich kombinieren</li>
+                        </ul>
+                    </aside>
                 </section>
 
 
@@ -540,6 +633,13 @@
                         <img src="images/github_facets.png" style="width:100%"/>
                     </a>
 
+                    <aside class="notes">
+                        <ul>
+                            <li>Aggregationen</li>
+                            <li>Performanceprobleme bei relationalen Datenbanken</li>
+                            <li>können unterschiedliche filter beinhalen, z.b. eine programmiersprache</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -553,6 +653,14 @@
     }
 }
                     </pre>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Facetten haben einen identifier</li>
+                            <li>Facetten haben eine beliebige Query, bzw. Filter</li>
+                            <li>Facetten betreffen immer ein Feld</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -568,6 +676,16 @@
         }
     }
 }
+
+                        <aside class="notes">
+                            <ul>
+                                <li>Mehrere Facetten sind möglich</li>
+                                <li>Facetten könnnen unterschiedliche Filter haben</li>
+                                <li>Facetten findet man über den Identfier wieder</li>
+                                <li>Facetten sind sehr performant</li>
+                                <li>Facetten brauchen Ram</li>
+                            </ul>
+                        </aside>
                     </pre>
                 </section>
 
@@ -585,6 +703,14 @@
                         <br/>
                         the breakpoint is awesome to debug the generated lucene query.
                     </small>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>verschiedene Suchphasen</li>
+                            <li>werden unabhängig von der Query Phast und der Suggestion Phase ausgeführt</li>
+                            <li>eine Anfrage kann eine Query sowie Facetten beinhalten</li>
+                        </ul>
+                    </aside>
 
                 </section>
 
@@ -614,10 +740,26 @@
     }
 }
                     </pre>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Query kombiniert mit Facetten</li>
+                            <li>Suchergebnis + Facetten Ergebnisse</li>
+                            <li>Facetten nutzten die Query um sich selbst zu filtern</li>
+                            <li>Query bezieht sich immer auf alles</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/facets_overview_hauptruppe.png" style="width:100%"/>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Komplexere Facetten</li>
+                            <li></li>
+                        </ul>
+                    </aside>
                 </section>
 
 
