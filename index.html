@@ -181,6 +181,45 @@
                     </aside>
 				</section>
 
+                <section>
+                    <h1>is for search</h1>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>kein Ersatz für relationale Datenbanken</li>
+                            <li>kein Ersatz für NoSql Datenbanken - oder?</li>
+                        </ul>
+                    </aside>
+
+                </section>
+
+                <section>
+                    <h2>has brilliant defaults</h2>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Automapping</li>
+                            <li>"Tabellen" werden beim Insert von Daten angelegt</li>
+                            <li>Server finden sich automatisch</li>
+                            <li>Schneller Einstieg</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>is flexible</h2>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>change everything</li>
+                            <li>complex queries</li>
+                            <li>war oft erstaunt was es alles kann und wie man dies beeinflussen kann - geosuche mir beliebigen Formen auf der Karte</li>
+                            <li>modular - plugin api's - google guice</li>
+                        </ul>
+                    </aside>
+                </section>
+
+
                 <!--
 				<section>
                     <h3>A Whole New Code Search. <small>@GitHub</small></h3>
@@ -293,7 +332,7 @@
 
                 <section>
                     <h1>elasticsearch</h1>
-                    <h2>in Action...</h2>
+                    <h2>in action...</h2>
 
                     <aside class="notes">
                         <ul>
@@ -376,6 +415,7 @@
                             <li>oben die url und die http methode</li>
                             <li>unten der senden button</li>
                             <li>response öffnet sich asap</li>
+                            <li>Name ist einer von 3500 Comic helden - by Default</li>
                         </ul>
                     </aside>
 
@@ -397,6 +437,7 @@
                             <li>nur Json</li>
                             <li>daten werden als original gespeichert</li>
                             <li>daten werden indiziert - inverted index</li>
+                            <li>Arrays und Unterelemente möglich</li>
                         </ul>
                     </aside>
 
@@ -444,7 +485,7 @@
 {
     "query" : {
         "term": {
-            "message" : "timglabisch"
+            "user" : "timglabisch"
         }
     }
 }
@@ -648,11 +689,12 @@
                 </section>
 
                 <section>
-                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+                    <pre class="elasticsearch demo" data-method="post" data-url="my_twitter_river/status/_search">
 {
+    "size": 1,
     "facets" : {
         "i_am_just_an_identifier": {
-            "terms": { "field": "message" }
+            "terms": { "field": "source" }
         }
     }
 }
@@ -660,37 +702,44 @@
 
                     <aside class="notes">
                         <ul>
+                            <li>my_twitter_river - Twitter River Plugin für Elasticsearch</li>
+                            <li>Sonntag, 35k Tweets in 10 min</li>
+
                             <li>Facetten haben einen identifier</li>
-                            <li>Facetten haben eine beliebige Query, bzw. Filter</li>
+                            <li>Facetten haben eine beliebige Query, bzw. Filter - später mehr</li>
                             <li>Facetten betreffen immer ein Feld</li>
+
+                            <li>von wo kommen Anfragen?</li>
                         </ul>
                     </aside>
                 </section>
 
                 <section>
                     <h4>multiple facets</h4>
-                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch/_search">
+                    <pre class="elasticsearch demo" data-method="post" data-url="my_twitter_river/status/_search">
 {
+    "size": 1,
     "facets" : {
         "i_am_just_an_identifier": {
-            "terms": { "field": "message" }
+            "terms": { "field": "text" }
         },
         "i_am_just_another_identifier": {
-            "terms": { "field": "user" }
+            "terms": { "field": "source" }
         }
     }
 }
-
-                        <aside class="notes">
-                            <ul>
-                                <li>Mehrere Facetten sind möglich</li>
-                                <li>Facetten könnnen unterschiedliche Filter haben</li>
-                                <li>Facetten findet man über den Identfier wieder</li>
-                                <li>Facetten sind sehr performant</li>
-                                <li>Facetten brauchen Ram</li>
-                            </ul>
-                        </aside>
                     </pre>
+                    <aside class="notes">
+                        <ul>
+                            <li>Mehrere Facetten sind möglich</li>
+                            <li>Facetten könnnen unterschiedliche Filter haben</li>
+                            <li>Facetten findet man über den Identfier wieder</li>
+                            <li>Facetten sind sehr performant</li>
+                            <li>Facetten brauchen Ram</li>
+
+                            <li>Score 0 weil keine Query</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -722,26 +771,24 @@
 
                 <section>
                     <h3>combine query and facets.</h3>
-                    <pre class="elasticsearch demo longtxt" data-method="post" data-url="twitter/timglabisch/_search">
+                    <pre class="elasticsearch demo longtxt" data-method="post" data-url="my_twitter_river/status/_search">
 {
+    "size": 0,
     "query" : {
         "bool": {
             "must": [
                 {
-                    term: {"message" : "elasticsearch" }
-                },
-                {
-                    term: {"user" : "timglabisch" }
+                    term: {"text" : "fuck" }
                 }
             ]
         }
     },
     "facets" : {
-        "i_am_just_an_identifier": {
-            "terms": { "field": "message" }
-        },
         "i_am_just_another_identifier": {
-            "terms": { "field": "user" }
+            "terms": { "field": "source" }
+        },
+        "i_am_just_an_identifier": {
+            "terms": { "field": "text" }
         }
     }
 }
@@ -997,7 +1044,7 @@
                 </section>
 
                 <section>
-                    <h1><a href="http://www.elasticsearch.org/guide/reference/api/search/" target="_blank">Routing</a></h1>
+                    <h1><a href="http://www.elasticsearch.org/guide/reference/api/search/" target="_blank">routing</a></h1>
                     <aside class="notes">
                         <ul>
                             <li>Möglichkeit Performance zu verbessern</li>
@@ -1027,7 +1074,7 @@
                 </section>
 
                 <section>
-                    <h3>Routing By</h3>
+                    <h3>routing by</h3>
                     <p>
                         - <a href="http://www.elasticsearch.org/guide/reference/mapping/routing-field/" target="_blank">id (default)</a><br/>
                         - <a href="http://www.elasticsearch.org/guide/reference/api/search/" target="_blank">parameter</a> ( /twitter/tweet?routing=timglabisch )<br/>
