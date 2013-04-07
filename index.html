@@ -82,7 +82,7 @@
                         var url = $(this.pre).parent().find('.url').val();
 
                         $.ajax({
-                            url: 'http://127.0.0.1:9200/'+ url +  ( url && url.indexOf('?') ? '&' : '?' ) + 'pretty=true',
+                            url: 'http://127.0.0.1:9200/'+ url +  ( url && url.indexOf('?') > 0 ? '&' : '?' ) + 'pretty=true',
                             type: $(this.pre).parent().find('.method').val().toUpperCase(),
                             dataType: 'json',
                             success: function(data) {
@@ -147,7 +147,6 @@
 
                     <div class="right" style="width:79%">
                         <h1>elasticsearch.</h1>
-
                     </div>
                     <div class="clear"></div>
 
@@ -182,6 +181,7 @@
                     </aside>
 				</section>
 
+                <!--
 				<section>
                     <h3>A Whole New Code Search. <small>@GitHub</small></h3>
 					<img src="images/github_team.gif" style="width:80%"/>
@@ -199,9 +199,8 @@
                             <li>ich habe <strong>quasi alles verlinkt</strong>!</li>
                         </ul>
                     </aside>
-
-
 				</section>
+				-->
 
                 <section>
                     <a target="_blank" href="https://github.com/search?q=42&type=Repositories&ref=searchresults">
@@ -384,7 +383,8 @@
                     <pre class="elasticsearch demo" data-method="post" data-url="twitter/timglabisch">
 {
     "user" : "timglabisch",
-    "message" : "#elasticsearch is #awesome"
+    "message" : "#elasticsearch is #awesome",
+    "tags" : ["elasticsearch", "awesome"]
 }
                     </pre>
 
@@ -710,6 +710,8 @@
                             <li>verschiedene Suchphasen</li>
                             <li>werden unabhängig von der Query Phast und der Suggestion Phase ausgeführt</li>
                             <li>eine Anfrage kann eine Query sowie Facetten beinhalten</li>
+                            <li>stelle ist gut zum debuggen</li>
+                            <li>elasticsearch hat hier die Anfrage zu einer Lucene Anfrage umgebaut</li>
                         </ul>
                     </aside>
 
@@ -752,20 +754,32 @@
                     </aside>
                 </section>
 
+                <!--
                 <section>
                     <img src="images/facets_overview_hauptruppe.png" style="width:100%"/>
 
                     <aside class="notes">
                         <ul>
                             <li>Komplexere Facetten</li>
-                            <li></li>
+                            <li>Facetten der Hauptgruppe bezieht sich nicht auf die Filter der Facetten auf der rechten Seite</li>
                         </ul>
                     </aside>
                 </section>
+                -->
 
 
                 <section>
                     <img src="images/facets_overview_filterspng.png" style="width:100%"/>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>zwei Beispiele</li>
+                            <li>das Rote soll das Grüne nicht filtern</li>
+                            <li>Facetten dürfen sich nicht selbst ausschließen</li>
+                            <li>Oberkategorien sollen noch anzeigbar und anklickbar sein</li>
+                            <li>Facetten müssen Filtermöglichkeiten beeinflussen können</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -773,6 +787,13 @@
                     <p>
                         Teilabfragen können unabhängig <a target="_blank" href="http://www.elasticsearch.org/guide/reference/query-dsl/">gefiltert</a> werden.
                     </p>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Filter sind <strong>Subqueries</strong> die sich nur auf Teile der Abfrage beziehen - Facetten, Subqueries, ...</li>
+                            <li>Filter sind performant</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -852,6 +873,18 @@
    }
 }
                     </pre>
+                    <aside class="notes">
+                        <ul>
+                            <li>erst hauptfilter anschauen - beinhaltet: level1, provider, cars</li>
+                            <li>facette provider - beinhaltet level1, cars</li>
+                            <li>facette cars - beinhaltet level1, provider</li>
+                            <li>query ist leer</li>
+                            <li>Der Hauptfilter beinhaltet die Filter für die Suchabfrage</li>
+                            <li>Queries beziehen sich immer auf alles</li>
+                            <li>Filter sind performant</li>
+                            <li>Filter sind sehr flexibel</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -861,68 +894,133 @@
                 </section>
 
                 <section>
-                    <h1>Gui's</h1>
-                    <p>
-                        <a href="https://github.com/lukas-vlcek/bigdesk" target="_blank">gitdesk</a><br/>
-                        <a href="https://github.com/mobz/elasticsearch-head" target="_blank">elasticsearch-head</a>
-                    </p>
-                </section>
-
-
-                <section>
-                    <iframe src="gui/bigdesk/index.html" style="width:100%;height:100%;border:1px solid black"></iframe>
-                </section>
-
-
-                <section>
-                    <iframe src="gui/elasticsearch_head/index.html" style="width:100%;height:100%;border:1px solid black"></iframe>
-                </section>
-
-                <section>
                     <a href="http://mobz.github.com/elasticsearch-head/" target="_blank">
                         <img src="images/clusterOverview.png" style="width:100%;border:1px solid black"/>
                     </a>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>wenns mal mehr werden</li>
+                            <li>Übersicht der indizes</li>
+                            <li>Übersicht der rechner</li>
+                            <li>Gesundheit des clusters</li>
+                        </ul>
+                    </aside>
                 </section>
 
 
                 <section>
                     <h1>Shards</h1>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Datenblöcke welche verschoben werden können</li>
+                            <li>Daten werden in Shards unterteilt</li>
+                            <li>Anzahl der Shards müssen beim Erstellen des Indizes bekannt sein</li>
+                            <li>Kleine Datenmenge = wenig Shards</li>
+                            <li>Weniger Shards = bessere Performance</li>
+                            <li>Weniger Shards = weniger mögl. Daten</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/2shards.png" style="width:100%"/>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Daten könnten über 2 Server verteilt werden</li>
+                            <li>Bei vielen Daten bessere Performance</li>
+                            <li>Bei wenig Daten schlechtere Performance</li>
+                            <li>Durch reverted Index geringe Datenmengen</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/2shards_one_query.png" style="width:100%"/>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Eine Abfrage = Anfrage auf beide Shards</li>
+                            <li>Optimiert durch Bloom Filter u.s.w.</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/two_shards_two_servers.png" style="width:100%"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Shards können auf 2 Servern liegen</li>
+                            <li>Shards verschieben ist teuer</li>
+                            <li>Steuerbar über API</li>
+                            <li>Flexibel: Rack, Gruppen, ...</li>
+                            <li>Default: 5</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/replic_shards.png" style="width:100%"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Replicas</li>
+                            <li>Ausfallsicherheit</li>
+                            <li>Performance</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/shards_replicas.png" style="width:100%"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Kombination Replica und Shards</li>
+                            <li>Ausfallsicherheit + Performance</li>
+                            <li>Default - Fall genug Server vorhanden</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/shards_balancing.png" style="width:100%"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>Rot (Server C) fällt weg</li>
+                            <li>Gelb (Server B, D) übernehmen einen Shard</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <h1><a href="http://www.elasticsearch.org/guide/reference/api/search/" target="_blank">Routing</a></h1>
+                    <aside class="notes">
+                        <ul>
+                            <li>Möglichkeit Performance zu verbessern</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/routing_no_routing.png" style="width:100%"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>ohne Routing</li>
+                            <li>alle Shards müssen angefragt werden</li>
+                            <li>ergnisse aller Shards müssen aggregiert werden</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <img src="images/routing_routing.png" style="width:100%"/>
+                    <aside class="notes">
+                        <ul>
+                            <li>ein Feld kann bestimmen auf welchem Shard es liegt</li>
+                            <li>Anzahl der Shards stehen fest</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -932,6 +1030,14 @@
                         - <a href="http://www.elasticsearch.org/guide/reference/api/search/" target="_blank">parameter</a> ( /twitter/tweet?routing=timglabisch )<br/>
                         - <a href="http://www.elasticsearch.org/guide/reference/mapping/routing-field/" target="_blank">custom field / path</a>
                     </p>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Gut für die Performance</li>
+                            <li>Möglichkeit für Kundenspzische Suchen, Kategorieabhängige, u.s.w.</li>
+                            <li>Bei vielen Daten zu empfehlen!</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -939,15 +1045,27 @@
                     <p>
                         Elasticseatch isn't schemaless.
                     </p>
+                    <aside class="notes">
+                        <ul>
+                            <li>Schemaless steht auf der Startseite</li>
+                            <li>Lüge!</li>
+                            <li>Beweis folgt</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <h4>Index an int</h4>
-                    <pre class="elasticsearch demo" data-method="post" data-url="twitter/schemaless_proof">
+                    <pre class="elasticsearch demo" data-method="post" data-url="wayne/schemaless_proof">
 {
     "some_value": 1
 }
                     </pre>
+                    <aside class="notes">
+                        <ul>
+                            <li>Als erstes ein Int anlegen</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -957,6 +1075,13 @@
     "some_value": "i am just a string"
 }
                     </pre>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Versuch einen String in identisches Feld zu speichern - scheitert</li>
+                            <li>Andersrum wäre es möglich!</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -966,6 +1091,12 @@
                     <p>
                         sounds ugly but allows to start easy.
                     </p>
+                    <aside class="notes">
+                        <ul>
+                            <li>Mapping wird beim ersten Insert eines neuen Feldes erraten</li>
+                            <li>Bitte nicht Produktiv so machen.</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -986,6 +1117,16 @@
     }
 }
                     </pre>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>Mappings sind einfach</li>
+                            <li>Erste Node - Type</li>
+                            <li>Felder als Properties</li>
+                            <li>Type für den Feldtypen</li>
+                            <li>Weitere möglichkeiten wie nutzung von analyzer, tokenizer. - eigene Analyzer, ...</li>
+                        </ul>
+                    </aside>
                 </section>
 
 
@@ -994,6 +1135,12 @@
                     <pre class="elasticsearch demo" data-method="get" data-url="wayne/schemaless_proof_2/_mapping">
 
                     </pre>
+                    <aside class="notes">
+                        <ul>
+                            <li>Auslesen des Mappings - GET Request</li>
+                            <li>Erratende Mppings lassen sich auch auslesen</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -1015,6 +1162,11 @@
 
                 <section>
                     <h1>remapping sucks</h1>
+                    <aside class="notes">
+                        <ul>
+                            <li>Probleme welche man nicht Live haben will!</li>
+                        </ul>
+                    </aside>
                 </section>
 
 
@@ -1027,6 +1179,12 @@
                     <small>
                         by <a href="http://mata.gia.rwth-aachen.de/Docs/JavaInsel/bilderklein/kleinStringTokenizer.gif">mata.gia.rwth-aachen.de</a>
                     </small>
+                    <aside class="notes">
+                        <ul>
+                            <li>Tokenizer unterteilt Texte in Suchbare tokens</li>
+                            <li>Man sucht immer nach Tokens - nicht nach Textblöcken (Vergleich Mysql Varchar Feld)</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
@@ -1035,6 +1193,14 @@
                     <pre class="elasticsearch demo" data-method="post" data-url="_analyze?tokenizer=keyword">
 this is a text
                     </pre>
+                    <aside class="notes">
+                        <ul>
+                            <li>bei marken namen: Coca Cola -> Coca und Cola oder "Coca Cola"</li>
+                            <li>unterschiedlichste, E-Mails, Regex, ...</li>
+                            <li>NGram Example vll. mal zeigen</li>
+                            <li>NGram für Prefix Suche</li>
+                        </ul>
+                    </aside>
                 </section>
 
 
@@ -1052,13 +1218,40 @@ als 1,5 Tonnen Gewicht vorstellbar.
                     <small>
                         Popular Mechanics, US-Technik-Magazin, 1949
                     </small>
-                    <br/>
+                    <aside class="notes">
+                        <ul>
+                            <li>filter wie Lowercase, Stopwörter u.s.w.</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
                     <h1>there is so much more...</h1>
                 </section>
 
+                <section>
+                    <h1>Gui's</h1>
+                    <p>
+                        <a href="https://github.com/lukas-vlcek/bigdesk" target="_blank">bigdesk</a><br/>
+                        <a href="https://github.com/mobz/elasticsearch-head" target="_blank">elasticsearch-head</a>
+                    </p>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>plain javascript / html</li>
+                            <li>bigdesk - viele Statistiken, Monitoring, Replica, Überwachung Cluster</li>
+                            <li>elasticsearch-head - Ajax Maske, Replica, Überwachung Cluster</li>
+                        </ul>
+                    </aside>
+                </section>
+
+                <section>
+                    <iframe src="gui/bigdesk/index.html" style="width:100%;height:100%;border:1px solid black"></iframe>
+                </section>
+
+                <section>
+                    <iframe src="gui/elasticsearch_head/index.html" style="width:100%;height:100%;border:1px solid black"></iframe>
+                </section>
 
                 <section>
                     <h1>questions?</h1>
