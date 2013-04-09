@@ -198,6 +198,7 @@
 
                     <aside class="notes">
                         <ul>
+                            <li>großartige <strong>Standards</strong></li>
                             <li>Automapping</li>
                             <li>"Tabellen" werden beim Insert von Daten angelegt</li>
                             <li>Server finden sich automatisch</li>
@@ -213,8 +214,10 @@
                         <ul>
                             <li>change everything</li>
                             <li>complex queries</li>
-                            <li>war oft erstaunt was es alles kann und wie man dies beeinflussen kann - geosuche mir beliebigen Formen auf der Karte</li>
-                            <li>modular - plugin api's - google guice</li>
+                            <li>war oft <strong>erstaunt was es alles kann</strong> und wie man dies beeinflussen kann</li>
+                            <li><strong>Durchdachte Details</strong>geosuche mir beliebigen Formen auf der Karte</li>
+                            <li><strong>modular</strong> - plugin api's - google guice</li>
+                            <li>verständlicher und sauber programmiert</li>
                         </ul>
                     </aside>
                 </section>
@@ -248,11 +251,12 @@
 
                     <aside class="notes">
                         <ul>
-                            <li>Beispiel einer Suchmaske</li>
+                            <li><strong>Beispiel</strong> einer <strong>Suchmaske</strong></li>
+                            <li><strong>Github</strong></li>
                             <li>Suchwort 42 - nicht nach der Antwort suchen :)</li>
-                            <li>Facetten - Aggregatoren</li>
-                            <li>Facetten - Relatione Datenbank!?</li>
-                            <li>Facetten brauchen RAM!</li>
+                            <li><strong>Facetten</strong> - Aggregatoren</li>
+                            <li><strong>Facetten - Relatione Datenbank!?</strong></li>
+                            <li>Facetten brauchen <strong>RAM</strong>!</li>
                             <li>Highlighting von Textstücken</li>
                             <li>Advanced Search</li>
                         </ul>
@@ -269,8 +273,8 @@
                         <ul>
                             <li>so beschreibt sich Elasticsearch</li>
                             <li>fast alles für <strong>heute unwichtig!</strong></li>
-                            <li>Realtime kann nicht jeder Suchserver - Realtime bedeutet wenige Sekunden nach dem Indizieren </li>
-                            <li>Elasticsearch nutzt Rest</li>
+                            <li>Realtime kann nicht jeder Suchserver - Realtime bedeutet <strong>wenige Sekunden nach dem Indizieren</strong></li>
+                            <li>Elasticsearch nutzt <strong>Rest</strong></li>
 
                         </ul>
                     </aside>
@@ -321,10 +325,10 @@
                         <aside class="notes">
                             <ul>
                                 <li>bitte <strong>nicht lesen</strong>!</li>
-                                <li>es kann viel. wirklich.</li>
-                                <li>Manual ist vollständig - aber wirklich ein Handbuch.</li>
-                                <li>Buch - Jede Seite neue Funktionen.</li>
-                                <li>Funktionen sind kombinierbar und wirklich sinnvoll!</li>
+                                <li>es kann viel. wirklich. - <strong>detailverliebte api</strong></li>
+                                <li>Manual ist vollständig - aber wirklich <strong>ein Handbuch</strong>.</li>
+                                <li><strong>Buch - Jede Seite neue Funktionen.</strong></li>
+                                <li><strong>Funktionen sind kombinierbar</strong> und <strong>wirklich sinnvoll</strong> und <strong>flexibel</strong>!</li>
                             </ul>
                         </aside>
                     </small>
@@ -336,6 +340,7 @@
 
                     <aside class="notes">
                         <ul>
+                            <li><strong>genug der theorie</strong></li>
                             <li>wir schauen uns das an, was für eure <strong>erste Suchanwendung wichtig</strong>.</li>
                             <li>mein Ziel - <strong>ihr geht nach hause und könnt eine 0-8-15 Suchmaske bauen</strong>.</li>
                         </ul>
@@ -351,10 +356,11 @@
                     </p>
                     <aside class="notes">
                         <ul>
-                            <li>installation ist einfach</li>
-                            <li>runterlasen</li>
-                            <li>installer für init Skripte runderladen - ausführen</li>
-                            <li>defaults sind alle brauchbar!</li>
+                            <li><strong>installation</strong> ist <strong>einfach</strong></li>
+                            <li>runterladen</li>
+                            <li>ausführen</li>
+                            <li><strong>default Einstellungen</strong> sind alle brauchbar!</li>
+                            <li><strong>init Skripte</strong> runderladen.</li>
                         </ul>
                     </aside>
                 </section>
@@ -366,9 +372,11 @@
                     </a>
                     <aside class="notes">
                         <ul>
-                            <li>front modus</li>
-                            <li>super zum debuggen</li>
-                            <li>strg + C zum beenden</li>
+
+                            <li><strong>-f</strong> für <strong>frontend</strong>, zeigt Fehler</li>
+                            <li>startet auf <strong>nächstem freien Port</strong> ab <strong>port 9200</strong></li>
+                            <li>super zum <strong>debuggen</strong></li>
+                            <li><strong>strg + C</strong> zum beenden</li>
                             <li>als Service einfach ohne -f</li>
                             <li>ihr könnt auch mehrere Instanzen starten</li>
                         </ul>
@@ -396,7 +404,7 @@
                             <li>plugin api vorhanden</li>
                             <li>discovery modul findet andere Instanzen - broadcast, ip liste, amazon, ...</li>
                             <li>Rest modul für alle Rest anfragen</li>
-                            <li>Buld modul für größere Mengen von Daten, Udp auch möglich.</li>
+                            <li>Bulk modul für größere Mengen von Daten, Udp auch möglich.</li>
                         </ul>
                     </aside>
 
@@ -458,6 +466,11 @@
                         <ul>
                             <li>Module registrieren in netty Handler</li>
                             <li>Diese können über die Url angesprochen werden</li>
+                            <li>Index = Datenbank</li>
+                            <li>Type = Tabelle</li>
+                            <li>Dahinter die Action</li>
+                            <li>Action beginnent mit einem _</li>
+                            <li>id wurde generiert</li>
                         </ul>
                     </aside>
                 </section>
@@ -561,6 +574,7 @@
 
                     <aside class="notes">
                         <ul>
+                            <li>ODER / OR</li>
                             <li>merkt euch die Slide</li>
                             <li>war mein erster "Fehler" mit elasticsearch</li>
                             <li>wie aber setzen wir es dann um?</li>
@@ -944,28 +958,12 @@
                 </section>
 
                 <section>
-                    <a href="http://mobz.github.com/elasticsearch-head/" target="_blank">
-                        <img src="images/clusterOverview.png" style="width:100%;border:1px solid black"/>
-                    </a>
-
-                    <aside class="notes">
-                        <ul>
-                            <li>wenns mal mehr werden</li>
-                            <li>Übersicht der indizes</li>
-                            <li>Übersicht der rechner</li>
-                            <li>Gesundheit des clusters</li>
-                        </ul>
-                    </aside>
-                </section>
-
-
-                <section>
                     <h1>Shards</h1>
 
                     <aside class="notes">
                         <ul>
                             <li>Datenblöcke welche verschoben werden können</li>
-                            <li>Daten werden in Shards unterteilt</li>
+                            <li>Daten werden <strong>automatisch</strong> in Shards unterteilt</li>
                             <li>Anzahl der Shards müssen beim Erstellen des Indizes bekannt sein</li>
                             <li>Kleine Datenmenge = wenig Shards</li>
                             <li>Weniger Shards = bessere Performance</li>
@@ -979,7 +977,7 @@
 
                     <aside class="notes">
                         <ul>
-                            <li>Daten könnten über 2 Server verteilt werden</li>
+                            <li>Daten werden unterteilt - Standard 5 Unterteilungen - auch auf einem Server</li>
                             <li>Bei vielen Daten bessere Performance</li>
                             <li>Bei wenig Daten schlechtere Performance</li>
                             <li>Durch reverted Index geringe Datenmengen</li>
@@ -1233,6 +1231,9 @@
                         <ul>
                             <li>Tokenizer unterteilt Texte in Suchbare tokens</li>
                             <li>Man sucht immer nach Tokens - nicht nach Textblöcken (Vergleich Mysql Varchar Feld)</li>
+                            <li>lowercase zeigen</li>
+                            <li>ngram zeigen</li>
+                            <li>ngram ist schneller als prefix</li>
                         </ul>
                     </aside>
                 </section>
@@ -1301,6 +1302,21 @@ als 1,5 Tonnen Gewicht vorstellbar.
 
                 <section>
                     <iframe src="gui/elasticsearch_head/index.html" style="width:100%;height:100%;border:1px solid black"></iframe>
+                </section>
+
+                <section>
+                    <a href="http://mobz.github.com/elasticsearch-head/" target="_blank">
+                        <img src="images/clusterOverview.png" style="width:100%;border:1px solid black"/>
+                    </a>
+
+                    <aside class="notes">
+                        <ul>
+                            <li>wenns mal mehr werden</li>
+                            <li>Übersicht der indizes</li>
+                            <li>Übersicht der rechner</li>
+                            <li>Gesundheit des clusters</li>
+                        </ul>
+                    </aside>
                 </section>
 
                 <section>
